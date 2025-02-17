@@ -30,7 +30,7 @@ services:
         loki-external-labels: "service=whatsapp-api,type=service"
         loki-retries: "5"
         loki-batch-size: "400"
-      mode: "non-blocking"   
+        mode: "non-blocking"   
     networks:
       - logging-network
       - external-sol-apis
