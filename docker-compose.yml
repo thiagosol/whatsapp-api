@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  whatsapp-api:
+    image: whatsapp-api
+    container_name: whatsapp-api
+    pull_policy: never
+    restart: unless-stopped
+    volumes:
+      - ./whatsapp_auth:/app/.wwebjs_auth
+    environment:
+      - WPP_DB_USER=${WPP_DB_USER}
+      - WPP_DB_PASS=${WPP_DB_PASS}
+      - WPP_DB_HOST=${WPP_DB_HOST}
+      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whatsapp-api.entrypoints=http"
+      - "traefik.http.routers.whatsapp-api.rule=Host(`api.whatsapp.thiagosol.com`)"
+      - "traefik.http.routers.whatsapp-api-secure.entrypoints=https"
+      - "traefik.http.routers.whatsapp-api-secure.rule=Host(`api.whatsapp.thiagosol.com`)"
+      - "traefik.http.routers.whatsapp-api-secure.tls=true"
+      - "traefik.http.routers.whatsapp-api-secure.service=whatsapp-api-secure"
+      - "traefik.http.services.whatsapp-api-secure.loadbalancer.server.port=3000"
+      - "traefik.docker.network=external-sol-apis"
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://loki:3100/loki/api/v1/push"
+        loki-external-labels: "service=whatsapp-api,type=service"
+        loki-retries: "5"
+        loki-batch-size: "400"
+      mode: "non-blocking"   
+    networks:
+      - logging-network
+      - external-sol-apis
+    deploy:
+      resources:
+        limits:
+          memory: 400M 
+
+networks:
+  logging-network:
+    external: true
+  external-sol-apis:
+    external: true
