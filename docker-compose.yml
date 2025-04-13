@@ -9,16 +9,16 @@ services:
     volumes:
       - ./whatsapp_auth:/app/.wwebjs_auth
     environment:
-      - WPP_DB_USER=${WPP_DB_USER}
-      - WPP_DB_PASS=${WPP_DB_PASS}
-      - WPP_DB_HOST=${WPP_DB_HOST}
+      - WPP_DB_USER=${DB_POSTGRES_USER}
+      - WPP_DB_PASS=${DB_POSTGRES_PASS}
+      - WPP_DB_HOST=${SERVER_IP}
       - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.whatsapp-api.entrypoints=http"
-      - "traefik.http.routers.whatsapp-api.rule=Host(`api.whatsapp.thiagosol.com`)"
+      - "traefik.http.routers.whatsapp-api.rule=Host(`api-whatsapp.thiagosol.com`)"
       - "traefik.http.routers.whatsapp-api-secure.entrypoints=https"
-      - "traefik.http.routers.whatsapp-api-secure.rule=Host(`api.whatsapp.thiagosol.com`)"
+      - "traefik.http.routers.whatsapp-api-secure.rule=Host(`api-whatsapp.thiagosol.com`)"
       - "traefik.http.routers.whatsapp-api-secure.tls=true"
       - "traefik.http.routers.whatsapp-api-secure.service=whatsapp-api-secure"
       - "traefik.http.services.whatsapp-api-secure.loadbalancer.server.port=3000"

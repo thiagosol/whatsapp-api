@@ -1,0 +1,14 @@
+name: Finish Deploy
+
+on:
+  repository_dispatch:
+    types: [deploy_finished]
+
+jobs:
+  finish-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Finish Deploy
+        uses: thiagosol/scripts/.github/actions/finish-deploy@main
+        with:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}

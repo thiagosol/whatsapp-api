@@ -1,0 +1,19 @@
+name: Start Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  start-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Start Deploy
+        uses: thiagosol/scripts/.github/actions/start-deploy@main
+        with:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
