@@ -15,14 +15,11 @@ services:
       - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.whatsapp-api.entrypoints=http"
       - "traefik.http.routers.whatsapp-api.rule=Host(`api-whatsapp.thiagosol.com`)"
-      - "traefik.http.routers.whatsapp-api-secure.entrypoints=https"
-      - "traefik.http.routers.whatsapp-api-secure.rule=Host(`api-whatsapp.thiagosol.com`)"
-      - "traefik.http.routers.whatsapp-api-secure.tls=true"
-      - "traefik.http.routers.whatsapp-api-secure.service=whatsapp-api-secure"
-      - "traefik.http.services.whatsapp-api-secure.loadbalancer.server.port=3000"
-      - "traefik.docker.network=external-sol-apis"
+      - "traefik.http.routers.whatsapp-api.entrypoints=https"
+      - "traefik.http.routers.whatsapp-api.tls=true"
+      - "traefik.http.services.whatsapp-api.loadbalancer.server.port=3000"
+      - "traefik.docker.network=proxy"
     logging:
       driver: loki
       options:
